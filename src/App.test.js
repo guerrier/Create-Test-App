@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { shallow, configure } from "enzyme";
 import Adapter from "enzyme-adapter-react-16";
-import App, { Todo, TodoForm } from "./App";
+import App, { Todo, TodoForm, useTodos } from "./App";
 
 configure({ adapter: new Adapter() })
 
@@ -33,7 +33,6 @@ describe("App", () => {
       expect(completeTodo.mock.calls).toEqual([[5]]);
       expect(removeTodo.mock.calls).toEqual([]);
     });
-
 
     it('Ejecuta removeTodo cuando pincho X', () => {
       const completeTodo = jest.fn();
@@ -76,6 +75,21 @@ describe("App", () => {
 
         expect(addTodo.mock.calls).toEqual([[ 'mi nuevo todo!' ]]);
         expect(prevent.mock.calls).toEqual([[]]);
+    });
+  });
+
+  describe('custom hook: useTodos', () => {
+    it('addTodo', () => {
+      const Test = (props) => {
+        const hook = props.hook();
+        return <div {...hook}></div>;
+      };
+
+      const wrapper = shallow(<Test hook={useTodos}/>);
+      let props = wrapper.find('div').props();
+      props.addTodo('Texto de prueba');
+      props = wrapper.find('div').props();
+      expect(props.todos[0]).toEqual({ text: 'Texto de prueba'});
     });
   });
 });
