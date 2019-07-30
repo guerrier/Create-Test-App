@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { shallow, configure } from "enzyme";
 import Adapter from "enzyme-adapter-react-16";
-import App, { Todo } from "./App";
+import App, { Todo, TodoForm } from "./App";
 
 configure({ adapter: new Adapter() })
 
@@ -59,6 +59,23 @@ describe("App", () => {
 
       expect(removeTodo.mock.calls).toEqual([[5]]);
       expect(completeTodo.mock.calls).toEqual([]);
+    });
+  });
+
+  describe('TodoForm', () => {
+    it('Llamar a addTodo cuando el formulario tiene un valor', () => {
+      const addTodo = jest.fn();
+      const prevent = jest.fn();
+      const wrapper = shallow(<TodoForm addTodo={addTodo}/>);
+      wrapper
+        .find('input')
+        .simulate('change', { target: { value: 'mi nuevo todo!' } });
+      wrapper
+        .find('form')
+        .simulate('submit', { preventDefault: prevent }); //En lugar de prevent podemos poner () => {}
+
+        expect(addTodo.mock.calls).toEqual([[ 'mi nuevo todo!' ]]);
+        expect(prevent.mock.calls).toEqual([[]]);
     });
   });
 });
