@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { connect } from "react-redux";
 import { agregar, eliminar } from "./reducers/finanzas";
 import Form from "./components/Form"
+import Dashboard from "./components/Dashboard"
+import Finanzas from "./components/Finanzas"
 import "./App.css";
 
 function Titulo() {
@@ -9,49 +11,6 @@ function Titulo() {
 }
 
 
-
-function Dashboard({ valor }) {
-  return (
-    <div className="column is-half">
-      <div className="box">
-        <p>Total</p>
-        <strong>{valor}</strong>
-      </div>
-    </div>
-  );
-}
-
-function Finanzas({ finanzas, eliminarFinanza }) {
-  return (
-    <div className="column is-half">
-      <table className="table is-striped is-fullwidth">
-        <thead>
-          <tr>
-            <th>Descripción</th>
-            <th>Cantidad</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          {finanzas.map((x, i) => (
-            <tr key={i}>
-              <td>{x.desc}</td>
-              <td>{x.cant}</td>
-              <td>
-                <button
-                  className="button is-warning"
-                  onClick={() => eliminarFinanza(i)}
-                >
-                  Eliminar
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
-  );
-}
 
 function App({ finanzas, agregarFinanza, eliminarFinanza }) {
   const total = finanzas.reduce((acc, el) => acc + el.cant, 0);

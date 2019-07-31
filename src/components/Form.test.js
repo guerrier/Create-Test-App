@@ -2,7 +2,6 @@ import React from 'react';
 import { shallow, configure } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import Form from './Form';
-import { italic } from 'ansi-colors';
 
 configure({ adapter: new Adapter() });
 
